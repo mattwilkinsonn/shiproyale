@@ -8,5 +8,5 @@ script = ExtResource("1_68pt6")
 [node name="SpawnPoint" type="Node2D" parent="."]
 position = Vector2(555, 315)
 
-[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+[node name="ProjectileSpawner" type="MultiplayerSpawner" parent="."]
 spawn_path = NodePath("..")
