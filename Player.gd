@@ -6,6 +6,7 @@ const ProjectileScene = preload("res://Projectile.tscn")
 @export var ROTATIONAL_VELOCITY = 90.0
 
 var ROTATIONAL_VELOCITY_RADIANS = deg_to_rad(ROTATIONAL_VELOCITY)
+var is_local_player = false
 
 func _physics_process(delta: float):
 	var input_direction = Input.get_vector("Left", "Right", "Up", "Down")

@@ -39,8 +39,14 @@ text = "Join Server"
 layout_mode = 2
 text = "Dedicated Server"
 
+[node name="StartGame" type="Button" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+disabled = true
+text = "Start Game"
+
 [node name="PlayerList" type="VBoxContainer" parent="CenterContainer/VBoxContainer"]
 layout_mode = 2
 
 [connection signal="pressed" from="CenterContainer/VBoxContainer/JoinServer" to="." method="_on_join_server_pressed"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/CreateServer" to="." method="_on_create_server_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/StartGame" to="." method="_on_start_game_pressed"]

@@ -15,11 +15,12 @@ func _process(delta):
 
 func _on_join_server_pressed():
 	Lobby.player_info.name = $CenterContainer/VBoxContainer/Username.text
-	Lobby.join_game($CenterContainer/VBoxContainer/ServerIp.text)
+	Lobby.join_server($CenterContainer/VBoxContainer/ServerIp.text)
 
 
 func _on_create_server_pressed():
-	Lobby.create_game()
+	Lobby.create_server()
+	$CenterContainer/VBoxContainer/StartGame.disabled = false
 
 
 func _on_player_connected(peer_id: int, player_info: Dictionary):
@@ -32,3 +33,7 @@ func _on_player_connected(peer_id: int, player_info: Dictionary):
 func _on_player_disconnected(peer_id: int):
 	labels[peer_id].queue_free()
 	
+
+
+func _on_start_game_pressed():
+	Lobby.load_game.rpc("res://Game.tscn")

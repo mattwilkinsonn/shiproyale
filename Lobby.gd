@@ -22,6 +22,8 @@ var player_info = {"name": "Name"}
 
 var players_loaded = 0
 
+var game_started = false
+
 func _ready():
 	# multiplayer.peer_connected.connect(_on_player_connected)
 	multiplayer.peer_disconnected.connect(_on_player_disconnected)
@@ -30,7 +32,7 @@ func _ready():
 	multiplayer.server_disconnected.connect(_on_server_disconnected)
 
 
-func join_game(address = ""):
+func join_server(address = ""):
 	if address.is_empty():
 		address = DEFAULT_SERVER_IP
 	var peer = ENetMultiplayerPeer.new()
@@ -40,7 +42,7 @@ func join_game(address = ""):
 	multiplayer.multiplayer_peer = peer
 
 
-func create_game():
+func create_server():
 	var peer = ENetMultiplayerPeer.new()
 	var error = peer.create_server(PORT, MAX_CONNECTIONS)
 	if error:
@@ -58,11 +60,11 @@ func load_game(game_scene_path):
 # Every peer will call this when they have loaded the game scene.
 @rpc("any_peer", "call_local", "reliable")
 func player_loaded():
-	if multiplayer.is_server():
+	if multiplayer.is_server() and not game_started:
 		players_loaded += 1
 		if players_loaded == players.size():
 			$/root/Game.start_game()
-			players_loaded = 0
+			game_started = true
 
 
 @rpc("any_peer", "reliable")
