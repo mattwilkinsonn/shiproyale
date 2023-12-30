@@ -18,7 +18,7 @@ func start_game():
 	for player_id in Lobby.players:
 		create_player.rpc(player_id)
 		
-@rpc("authority", "call_local", "reliable", 2)
+@rpc("authority", "call_local", "reliable")
 func create_player(id: int):
 	var player = PlayerScene.instantiate()
 	player_characters[id] = player

@@ -46,10 +46,11 @@ func receive_player_movement_input(input_direction: Vector2, rotation_direction:
 	current_rotation_input = rotation_direction
 	
 func _physics_process(delta: float):
-	set_movement(current_movement_input)
-	calculate_rotation(delta, current_rotation_input)
+	if multiplayer.is_server():
+		set_movement(current_movement_input)
+		calculate_rotation(delta, current_rotation_input)
 
-	move_and_slide()
+		move_and_slide()
 
 func set_movement(input_direction: Vector2):
 	velocity = input_direction * MOVEMENT_SPEED
