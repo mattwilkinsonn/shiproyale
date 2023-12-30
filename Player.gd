@@ -3,6 +3,7 @@ extends CharacterBody2D
 const ProjectileScene = preload("res://Projectile.tscn")
 
 signal fire(pos, impulse)
+signal health_changed(health)
 
 @export var MOVEMENT_SPEED = 100
 @export var ROTATIONAL_VELOCITY = 90.0
@@ -12,6 +13,24 @@ var is_local_player = false
 
 var current_movement_input = Vector2.ZERO
 var current_rotation_input = 0
+@export var health: int:
+	get:
+		return health
+	set(new_health):
+		health_changed.emit(new_health)
+		health = new_health
+		
+		if multiplayer.is_server() and health == 0:
+			destroy_player.rpc()
+
+@rpc("authority", "call_local", "reliable")
+func destroy_player():
+	if is_local_player:
+		health_changed.emit(0)
+	queue_free()
+
+func _ready():
+	health = 100
 
 func _process(delta: float):
 	if not is_local_player:
@@ -70,7 +89,7 @@ func fire_projectile(fire_direction: float):
 	var fire_vector = Vector2.UP.rotated(fire_direction)
 	
  	# TODO: get edge of ship's collison box and position there
-	var pos = global_position + (fire_vector * 20)
+	var pos = global_position + (fire_vector * 50)
 	var impulse = fire_vector * 150
 	fire.emit(pos, impulse)
 

@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://cd2sn8nln6qf5"]
+[gd_scene load_steps=3 format=3 uid="uid://cd2sn8nln6qf5"]
 
 [ext_resource type="Script" path="res://Game.gd" id="1_68pt6"]
+[ext_resource type="PackedScene" uid="uid://diukkchbic6rt" path="res://GameHUD.tscn" id="2_ye2ks"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_68pt6")
@@ -10,3 +11,12 @@ position = Vector2(555, 315)
 
 [node name="ProjectileSpawner" type="MultiplayerSpawner" parent="."]
 spawn_path = NodePath("..")
+
+[node name="GameHUD" parent="." instance=ExtResource("2_ye2ks")]
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_right = 1152.0
+offset_bottom = 648.0
+grow_horizontal = 1
+grow_vertical = 1

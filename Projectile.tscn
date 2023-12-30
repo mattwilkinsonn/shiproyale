@@ -1,4 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://cm5qm0aspalqe"]
+[gd_scene load_steps=5 format=3 uid="uid://cm5qm0aspalqe"]
+
+[ext_resource type="Script" path="res://Projectile.gd" id="1_q2jd4"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_6j1sr"]
 
@@ -10,10 +12,25 @@ properties/1/path = NodePath(".:rotation")
 properties/1/spawn = true
 properties/1/replication_mode = 1
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_j5udc"]
+radius = 13.0384
+
 [node name="Projectile" type="RigidBody2D"]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("1_q2jd4")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_6j1sr")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_s1pp5")
+
+[node name="GameplayArea" type="Area2D" parent="."]
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GameplayArea"]
+shape = SubResource("CircleShape2D_j5udc")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_entered" from="GameplayArea" to="." method="_on_gameplay_area_body_entered"]
