@@ -22,3 +22,9 @@ offset_top = -27.0
 offset_right = 157.0
 grow_vertical = 0
 show_percentage = false
+
+[node name="StormLabel" type="Label" parent="."]
+layout_mode = 0
+offset_right = 91.0
+offset_bottom = 36.0
+text = "SHRINKING"

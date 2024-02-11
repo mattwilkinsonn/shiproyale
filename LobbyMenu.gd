@@ -1,5 +1,8 @@
 extends Control
 
+signal create_server
+signal join_server
+
 var labels = {}
 
 # Called when the node enters the scene tree for the first time.
@@ -14,13 +17,22 @@ func _process(delta):
 	pass
 
 func _on_join_server_pressed():
-	Lobby.player_info.name = $CenterContainer/VBoxContainer/Username.text
-	Lobby.join_server($CenterContainer/VBoxContainer/ServerIp.text)
+	join_server.emit()
 
+
+func set_start_game_enabled(enabled: bool):
+	$CenterContainer/VBoxContainer/StartGame.disabled = !enabled
+	
+
+func get_username() -> String:
+	return $CenterContainer/VBoxContainer/Username.text
+
+func get_server_ip() -> String:
+	return $CenterContainer/VBoxContainer/ServerIp.text
 
 func _on_create_server_pressed():
-	Lobby.create_server()
-	$CenterContainer/VBoxContainer/StartGame.disabled = false
+	create_server.emit()
+	
 
 
 func _on_player_connected(peer_id: int, player_info: Dictionary):

@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://cm5qm0aspalqe"]
+[gd_scene load_steps=6 format=3 uid="uid://cm5qm0aspalqe"]
 
 [ext_resource type="Script" path="res://Projectile.gd" id="1_q2jd4"]
+[ext_resource type="Texture2D" uid="uid://cw2oakbg2k03b" path="res://Assets/cannonBall.png" id="2_7tewa"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_6j1sr"]
 
@@ -31,6 +32,10 @@ collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="GameplayArea"]
 shape = SubResource("CircleShape2D_j5udc")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(2.08, 2.16)
+texture = ExtResource("2_7tewa")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_entered" from="GameplayArea" to="." method="_on_gameplay_area_body_entered"]

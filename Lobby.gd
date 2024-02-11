@@ -24,6 +24,8 @@ var players_loaded = 0
 
 var game_started = false
 
+var auto_start_players = 2
+
 func _ready():
 	# multiplayer.peer_connected.connect(_on_player_connected)
 	multiplayer.peer_disconnected.connect(_on_player_disconnected)
@@ -72,6 +74,10 @@ func _register_player_on_server(new_player_info: Dictionary):
 	var new_player_id = multiplayer.get_remote_sender_id()
 	_update_players_on_connect.rpc_id(new_player_id, players)
 	_new_player_connected.rpc(new_player_id, new_player_info)
+	if players.size() == auto_start_players:
+		load_game.rpc("res://Game.tscn")
+	
+	
 
 @rpc("authority", "call_local", "reliable")
 func _new_player_connected(id: int, new_player_info: Dictionary):

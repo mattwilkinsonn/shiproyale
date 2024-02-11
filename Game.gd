@@ -1,8 +1,22 @@
-extends Node2D
+extends Node
 
 const Player = preload("res://Player.gd")
 const PlayerScene = preload("res://Player.tscn")
 const ProjectileScene = preload("res://Projectile.tscn")
+
+enum StormState {
+	SHRINKING,
+	WAITING
+}
+
+@export var STORM_TIME = 10
+
+@export var storm_state: StormState = StormState.WAITING:
+	get:
+		return storm_state
+	set(new_storm_state):
+		$CanvasLayer/GameHUD.set_storm_label(new_storm_state)
+		storm_state = new_storm_state
 
 func _ready():
 	# Preconfigure game.
@@ -17,12 +31,14 @@ func start_game():
 	# All peers are ready to receive RPCs in this scene.
 	for player_id in Lobby.players:
 		create_player.rpc(player_id)
+	storm_state = StormState.WAITING
+	$StormTimer.start(STORM_TIME)
 		
 @rpc("authority", "call_local", "reliable")
 func create_player(id: int):
 	var player = PlayerScene.instantiate()
 	player_characters[id] = player
-	player.global_position = $SpawnPoint.global_position
+	player.global_position = $Map.get_spawn_point()
 	if multiplayer.get_unique_id() == id:
 		setup_local_player(player)
 	player.fire.connect(_on_player_fire)
@@ -33,7 +49,7 @@ func setup_local_player(player: Player):
 	player.health_changed.connect(_on_local_player_health_changed)
 
 func _on_local_player_health_changed(new_health: int):
-	$GameHUD.update_healthbar(new_health)
+	$CanvasLayer/GameHUD.update_healthbar(new_health)
 
 func _on_player_fire(pos, impulse):
 	$ProjectileSpawner.spawn({"pos": pos, "impulse": impulse})
@@ -49,3 +65,15 @@ func projectile_spawn(data):
 	projectile.apply_central_impulse(data.impulse)
 	return projectile
 	
+func flip_storm_state():
+	if storm_state == StormState.WAITING:
+		storm_state = StormState.SHRINKING
+		return
+	
+	storm_state = StormState.WAITING
+	
+func _on_storm_timer_timeout():
+	if multiplayer.is_server():
+		flip_storm_state()
+		$StormTimer.start(STORM_TIME)
+

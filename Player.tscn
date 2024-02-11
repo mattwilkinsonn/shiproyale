@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://cou6kwfdx4aws"]
+[gd_scene load_steps=7 format=3 uid="uid://cou6kwfdx4aws"]
 
 [ext_resource type="Script" path="res://Player.gd" id="1_mt85f"]
+[ext_resource type="Texture2D" uid="uid://de8qyfwnpgmy7" path="res://Assets/ship (6).png" id="2_037ia"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ruk8v"]
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_bhtkn"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_srpul"]
 properties/0/path = NodePath(".:position")
@@ -15,12 +16,38 @@ properties/2/path = NodePath(".:health")
 properties/2/spawn = true
 properties/2/replication_mode = 2
 
-[node name="Player" type="CharacterBody2D"]
-collision_mask = 3
-script = ExtResource("1_mt85f")
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ruk8v"]
+radius = 9.84989
+height = 106.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CapsuleShape2D_ruk8v")
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_g5a7i"]
+radius = 38.0
+height = 128.0
+
+[node name="Player" type="RigidBody2D"]
+collision_mask = 27
+mass = 2.5
+physics_material_override = SubResource("PhysicsMaterial_bhtkn")
+script = ExtResource("1_mt85f")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_srpul")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_037ia")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(3.25409, 1)
+shape = SubResource("CapsuleShape2D_ruk8v")
+
+[node name="StormTickTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="PlayerArea" type="Area2D" parent="."]
+collision_layer = 32
+collision_mask = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerArea"]
+shape = SubResource("CapsuleShape2D_g5a7i")
+
+[connection signal="timeout" from="StormTickTimer" to="." method="_on_storm_tick_timer_timeout"]

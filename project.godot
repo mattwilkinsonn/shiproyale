@@ -18,6 +18,17 @@ config/icon="res://icon.svg"
 [autoload]
 
 Lobby="*res://Lobby.gd"
+Globals="*res://Globals.gd"
+
+[debug]
+
+multirun/number_of_windows=3
+multirun/add_custom_args=true
+multirun/window_args=["--debug-collisions ++ server", "--debug-collisions ++ client", "--debug-collisions ++ client"]
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/multirun/plugin.cfg")
 
 [input]
 
@@ -62,6 +73,9 @@ Fire={
 2d_physics/layer_1="Player"
 2d_physics/layer_2="Projectile"
 2d_physics/layer_3="ProjectileGameplayArea"
+2d_physics/layer_4="Land"
+2d_physics/layer_5="PlayArea"
+2d_physics/layer_6="PlayerArea"
 
 [physics]
 

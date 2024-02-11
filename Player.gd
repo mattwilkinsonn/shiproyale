@@ -1,15 +1,18 @@
-extends CharacterBody2D
+extends RigidBody2D
 
+const PlayArea = preload("res://PlayArea.gd")
 const ProjectileScene = preload("res://Projectile.tscn")
 
 signal fire(pos, impulse)
 signal health_changed(health)
 
-@export var MOVEMENT_SPEED = 100
-@export var ROTATIONAL_VELOCITY = 90.0
+@export var MOVEMENT_FORCE = 50
+@export var ROTATIONAL_TORQUE = 900.0
+@export var MAX_SPEED = 100
+@export var PROJECTILE_IMPULSE = 400
 
-var ROTATIONAL_VELOCITY_RADIANS = deg_to_rad(ROTATIONAL_VELOCITY)
 var is_local_player = false
+@onready var camera: Camera2D = get_node("/root/Game/Camera2D")
 
 var current_movement_input = Vector2.ZERO
 var current_rotation_input = 0
@@ -32,12 +35,35 @@ func destroy_player():
 func _ready():
 	health = 100
 
+func is_in_play_area() -> bool:
+	return $PlayerArea.overlaps_area(Globals.play_area)
+
+func check_storm_tick():
+	if is_in_play_area():
+		return
+
+	if $StormTickTimer.is_stopped():
+		$StormTickTimer.start(2)
+
+func _on_storm_tick_timer_timeout():
+	if is_in_play_area():
+		return
+		
+	health -= 10
+	$StormTickTimer.start(0.5)
+	
+
 func _process(delta: float):
+	if multiplayer.is_server():
+		check_storm_tick()
+		return
+	
 	if not is_local_player:
 		return
 	var input_direction = Input.get_vector("Left", "Right", "Up", "Down")
 	var rotation_direction = Input.get_axis("Rotate Counterclockwise", "Rotate Clockwise")
 	receive_player_movement_input.rpc_id(1, input_direction, rotation_direction)
+	camera.position = position
 	
 	
 @rpc("any_peer", "call_remote", "unreliable_ordered")
@@ -48,23 +74,16 @@ func receive_player_movement_input(input_direction: Vector2, rotation_direction:
 func _physics_process(delta: float):
 	if multiplayer.is_server():
 		set_movement(current_movement_input)
-		calculate_rotation(delta, current_rotation_input)
-
-		move_and_slide()
+		calculate_rotation(current_rotation_input)
 
 func set_movement(input_direction: Vector2):
-	velocity = input_direction * MOVEMENT_SPEED
+	apply_central_force(input_direction * MOVEMENT_FORCE)
 	
-func calculate_rotation(delta: float, rotation_direction: float):
-	var current_angle = rotation
-	
-	var angle_change = get_angle_change(delta, rotation_direction)
-	
-	var new_angle = current_angle + angle_change
-	rotation = lerp_angle(current_angle, new_angle, 1)
+func calculate_rotation( rotation_direction: float):
+	apply_torque(rotation_direction * ROTATIONAL_TORQUE)
 
-func get_angle_change(delta: float, rotation_direction: float):
-	return ROTATIONAL_VELOCITY_RADIANS * delta * rotation_direction
+#func get_angle_change(delta: float, rotation_direction: float):
+	#return ROTATIONAL_VELOCITY_RADIANS * delta * rotation_direction
 	
 
 
@@ -91,10 +110,5 @@ func fire_projectile(fire_direction: float):
 	
  	# TODO: get edge of ship's collison box and position there
 	var pos = global_position + (fire_vector * 50)
-	var impulse = fire_vector * 150
+	var impulse = fire_vector * PROJECTILE_IMPULSE
 	fire.emit(pos, impulse)
-
-	
-	
-	
-	
