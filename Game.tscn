@@ -16,6 +16,7 @@ script = ExtResource("1_68pt6")
 spawn_path = NodePath("..")
 
 [node name="Map" parent="." instance=ExtResource("3_8btlj")]
+position = Vector2(24, 29)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 

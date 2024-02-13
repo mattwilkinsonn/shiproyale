@@ -15,6 +15,12 @@ properties/1/replication_mode = 1
 properties/2/path = NodePath(".:health")
 properties/2/spawn = true
 properties/2/replication_mode = 2
+properties/3/path = NodePath(".:currency")
+properties/3/spawn = true
+properties/3/replication_mode = 2
+properties/4/path = NodePath(".:ship_state")
+properties/4/spawn = true
+properties/4/replication_mode = 2
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ruk8v"]
 radius = 9.84989
@@ -45,9 +51,11 @@ one_shot = true
 
 [node name="PlayerArea" type="Area2D" parent="."]
 collision_layer = 32
-collision_mask = 16
+collision_mask = 80
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerArea"]
 shape = SubResource("CapsuleShape2D_g5a7i")
 
 [connection signal="timeout" from="StormTickTimer" to="." method="_on_storm_tick_timer_timeout"]
+[connection signal="area_entered" from="PlayerArea" to="." method="_on_player_area_area_entered"]
+[connection signal="area_exited" from="PlayerArea" to="." method="_on_player_area_area_exited"]

@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://diukkchbic6rt"]
+[gd_scene load_steps=3 format=3 uid="uid://diukkchbic6rt"]
 
 [ext_resource type="Script" path="res://GameHUD.gd" id="1_ieynb"]
+[ext_resource type="PackedScene" uid="uid://b68hvmv1ma7mk" path="res://PortMenu.tscn" id="2_x2bic"]
 
 [node name="GameHUD" type="Control"]
 custom_minimum_size = Vector2(1152, 648)
@@ -28,3 +29,25 @@ layout_mode = 0
 offset_right = 91.0
 offset_bottom = 36.0
 text = "SHRINKING"
+
+[node name="CurrencyLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 1030.0
+offset_top = 616.0
+offset_right = 1152.0
+offset_bottom = 647.0
+text = "Currency: 0"
+
+[node name="PortMenu" parent="." instance=ExtResource("2_x2bic")]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -100.0
+offset_right = 100.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2

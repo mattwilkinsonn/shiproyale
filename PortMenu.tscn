@@ -1,0 +1,71 @@
+[gd_scene format=3 uid="uid://b68hvmv1ma7mk"]
+
+[node name="PortMenu" type="Panel"]
+visible = false
+offset_right = 200.0
+offset_bottom = 200.0
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -96.0
+offset_right = 96.0
+offset_bottom = 192.0
+grow_horizontal = 2
+text = "Port Shop"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 196.0
+offset_bottom = 196.0
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Damage"
+
+[node name="Label2" type="Label" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Speed"
+
+[node name="Label3" type="Label" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Fire Rate"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Button" type="Button" parent="HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+text = "+"
+
+[node name="Button2" type="Button" parent="HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+text = "+"
+
+[node name="Button3" type="Button" parent="HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+text = "+"

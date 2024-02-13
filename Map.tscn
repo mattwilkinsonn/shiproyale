@@ -1,9 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://tfu155am36gu"]
+[gd_scene load_steps=9 format=3 uid="uid://tfu155am36gu"]
 
 [ext_resource type="Script" path="res://Map.gd" id="1_b6ekf"]
 [ext_resource type="PackedScene" uid="uid://bxsr1j1ayncy0" path="res://SpawnPoint.tscn" id="1_yeu4f"]
 [ext_resource type="Texture2D" uid="uid://gahde0juagk0" path="res://Assets/tiles_sheet.png" id="3_4n4ay"]
 [ext_resource type="PackedScene" uid="uid://rt6yeoatqe2k" path="res://PlayArea.tscn" id="4_i2t01"]
+[ext_resource type="PackedScene" uid="uid://cuwgvyj8d4w5e" path="res://Coin.tscn" id="5_8fdu8"]
+[ext_resource type="PackedScene" uid="uid://dnhh0j7w4sp0y" path="res://Port.tscn" id="6_mu7wv"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ob6kb"]
 texture = ExtResource("3_4n4ay")
@@ -372,4 +374,17 @@ layer_1/name = "Land"
 layer_1/z_index = 1
 layer_1/tile_data = PackedInt32Array(-327695, 327681, 0, -327693, 393217, 0, -327694, 393217, 0, -327692, 393217, 0, -327691, 393217, 0, -327690, 458753, 0, -327689, 458753, 0, -327688, 458753, 0, -327687, 524289, 0, -262151, 524289, 1, -196615, 524289, 1, -131079, 524289, 1, -65543, 524289, 1, -7, 524289, 2, 65529, 524289, 2, 131065, 524289, 3, 131060, 458753, 3, 131061, 458753, 3, 131062, 458753, 3, 131063, 458753, 3, 131064, 458753, 3, 131059, 327681, 3, 65523, 327681, 2, -13, 327681, 2, -65549, 327681, 2, -131086, 393217, 3, -131087, 327681, 3, -196623, 327681, 1, -262159, 327681, 1, -131085, 262145, 2, -262158, 393217, 2, -196622, 393217, 1, -196621, 393217, 1, -262157, 393217, 1, -262156, 458753, 1, -196620, 393217, 1, -65546, 458753, 1, -196616, 458753, 1, -131084, 458753, 2, -131083, 393217, 2, -65547, 393217, 1, -12, 393217, 1, -65548, 393217, 1, -196618, 393217, 2, -8, 458753, 1, -9, 393217, 1, 65526, 393217, 2, -11, 393217, 1, -10, 393217, 1, 65524, 393217, 1, 65525, 393217, 1, 65527, 393217, 1, -65544, 393217, 1, -131081, 393217, 1, -65545, 393217, 1, -131080, 393217, 1, -131082, 393217, 1, -196617, 393217, 1, -262152, 393217, 1, -262153, 393217, 1, -262154, 393217, 1, -262155, 393217, 1, -196619, 393217, 1, 65528, 393217, 1)
 
+[node name="Port" parent="." instance=ExtResource("6_mu7wv")]
+position = Vector2(272, -281)
+
 [node name="PlayArea" parent="." instance=ExtResource("4_i2t01")]
+position = Vector2(-11, 11)
+
+[node name="Coin" parent="." instance=ExtResource("5_8fdu8")]
+position = Vector2(188, 220)
+
+[node name="Coin2" parent="." instance=ExtResource("5_8fdu8")]
+position = Vector2(315, 239)
+
+[node name="Coin3" parent="." instance=ExtResource("5_8fdu8")]
+position = Vector2(464, 260)

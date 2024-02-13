@@ -15,6 +15,8 @@ func _ready():
 func _process(delta):
 	pass
 
+func update_currency(new_currency: int):
+	$CurrencyLabel.text = "Currency: " + str(new_currency)
 
 func update_healthbar(new_health: int):
 	$HealthBar.value = new_health
@@ -25,3 +27,9 @@ func set_storm_label(storm_state: Game.StormState):
 		return
 	
 	$StormLabel.text = WAITING_TEXT
+
+func show_port_menu():
+	$PortMenu.visible = true
+
+func hide_port_menu():
+	$PortMenu.visible = false

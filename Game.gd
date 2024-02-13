@@ -47,6 +47,18 @@ func create_player(id: int):
 func setup_local_player(player: Player):
 	player.is_local_player = true
 	player.health_changed.connect(_on_local_player_health_changed)
+	player.currency_changed.connect(_on_local_player_currency_changed)
+	player.entered_port.connect(_on_local_player_entered_port)
+	player.left_port.connect(_on_local_player_left_port)
+	
+func _on_local_player_entered_port():
+	$CanvasLayer/GameHUD.show_port_menu()
+
+func _on_local_player_left_port():
+	$CanvasLayer/GameHUD.hide_port_menu()
+
+func _on_local_player_currency_changed(new_currency: int):
+	$CanvasLayer/GameHUD.update_currency(new_currency)
 
 func _on_local_player_health_changed(new_health: int):
 	$CanvasLayer/GameHUD.update_healthbar(new_health)

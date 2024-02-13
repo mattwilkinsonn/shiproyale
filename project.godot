@@ -24,7 +24,7 @@ Globals="*res://Globals.gd"
 
 multirun/number_of_windows=3
 multirun/add_custom_args=true
-multirun/window_args=["--debug-collisions ++ server", "--debug-collisions ++ client", "--debug-collisions ++ client"]
+multirun/window_args=["--debug-collisions ++ client", "--debug-collisions ++ server", "--debug-collisions ++ client"]
 
 [editor_plugins]
 
@@ -76,6 +76,7 @@ Fire={
 2d_physics/layer_4="Land"
 2d_physics/layer_5="PlayArea"
 2d_physics/layer_6="PlayerArea"
+2d_physics/layer_7="PlayerPickups"
 
 [physics]
 
