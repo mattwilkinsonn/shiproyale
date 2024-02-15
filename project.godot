@@ -24,7 +24,7 @@ Globals="*res://Globals.gd"
 
 multirun/number_of_windows=3
 multirun/add_custom_args=true
-multirun/window_args=["--debug-collisions ++ client", "--debug-collisions ++ server", "--debug-collisions ++ client"]
+multirun/window_args=["--debug-collisions ++ server", "--debug-collisions ++ client", "--debug-collisions ++ client"]
 
 [editor_plugins]
 

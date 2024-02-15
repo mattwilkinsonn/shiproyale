@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://diukkchbic6rt"]
+[gd_scene load_steps=5 format=3 uid="uid://diukkchbic6rt"]
 
 [ext_resource type="Script" path="res://GameHUD.gd" id="1_ieynb"]
 [ext_resource type="PackedScene" uid="uid://b68hvmv1ma7mk" path="res://PortMenu.tscn" id="2_x2bic"]
+[ext_resource type="PackedScene" uid="uid://cvkdubye2kdbu" path="res://LossMenu.tscn" id="3_a6jx2"]
+[ext_resource type="PackedScene" uid="uid://clohuu46smcvm" path="res://VictoryMenu.tscn" id="4_f1bo0"]
 
 [node name="GameHUD" type="Control"]
 custom_minimum_size = Vector2(1152, 648)
@@ -51,3 +53,19 @@ offset_right = 100.0
 offset_bottom = 100.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="PlayersRemainingLabel" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 23.0
+grow_horizontal = 0
+text = "Players Remaining: 0/10"
+
+[node name="LossMenu" parent="." instance=ExtResource("3_a6jx2")]
+layout_mode = 0
+
+[node name="VictoryMenu" parent="." instance=ExtResource("4_f1bo0")]
+layout_mode = 0

@@ -56,6 +56,9 @@ collision_mask = 80
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerArea"]
 shape = SubResource("CapsuleShape2D_g5a7i")
 
+[node name="FireTimer" type="Timer" parent="."]
+one_shot = true
+
 [connection signal="timeout" from="StormTickTimer" to="." method="_on_storm_tick_timer_timeout"]
 [connection signal="area_entered" from="PlayerArea" to="." method="_on_player_area_area_entered"]
 [connection signal="area_exited" from="PlayerArea" to="." method="_on_player_area_area_exited"]

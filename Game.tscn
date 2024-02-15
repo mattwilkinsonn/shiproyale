@@ -7,7 +7,7 @@
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_5c10e"]
 properties/0/path = NodePath(".:storm_state")
 properties/0/spawn = true
-properties/0/replication_mode = 1
+properties/0/replication_mode = 2
 
 [node name="Game" type="Node"]
 script = ExtResource("1_68pt6")

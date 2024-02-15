@@ -2,6 +2,8 @@ extends RigidBody2D
 
 const Player = preload("res://Player.gd")
 
+@export var DAMAGE: int = 10
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -14,6 +16,6 @@ func _process(delta):
 
 func _on_gameplay_area_body_entered(body: Node2D):
 	if body is Player:
-		body.health -= 10
+		body.health -= DAMAGE
 	queue_free()
 	pass # Replace with function body.

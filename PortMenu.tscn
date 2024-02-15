@@ -1,9 +1,12 @@
-[gd_scene format=3 uid="uid://b68hvmv1ma7mk"]
+[gd_scene load_steps=2 format=3 uid="uid://b68hvmv1ma7mk"]
+
+[ext_resource type="Script" path="res://PortMenu.gd" id="1_uftqj"]
 
 [node name="PortMenu" type="Panel"]
 visible = false
 offset_right = 200.0
 offset_bottom = 200.0
+script = ExtResource("1_uftqj")
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 1
@@ -18,6 +21,7 @@ text = "Port Shop"
 horizontal_alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 0
 offset_left = 4.0
 offset_top = 4.0
 offset_right = 196.0
@@ -58,14 +62,18 @@ alignment = 1
 layout_mode = 2
 alignment = 1
 
-[node name="Button" type="Button" parent="HBoxContainer/VBoxContainer2"]
+[node name="DamageButton" type="Button" parent="HBoxContainer/VBoxContainer2"]
 layout_mode = 2
 text = "+"
 
-[node name="Button2" type="Button" parent="HBoxContainer/VBoxContainer2"]
+[node name="SpeedButton" type="Button" parent="HBoxContainer/VBoxContainer2"]
 layout_mode = 2
 text = "+"
 
-[node name="Button3" type="Button" parent="HBoxContainer/VBoxContainer2"]
+[node name="FireRateButton" type="Button" parent="HBoxContainer/VBoxContainer2"]
 layout_mode = 2
 text = "+"
+
+[connection signal="pressed" from="HBoxContainer/VBoxContainer2/DamageButton" to="." method="_on_damage_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer2/SpeedButton" to="." method="_on_speed_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer2/FireRateButton" to="." method="_on_fire_rate_button_pressed"]

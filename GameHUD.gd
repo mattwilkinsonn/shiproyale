@@ -17,19 +17,29 @@ func _process(delta):
 
 func update_currency(new_currency: int):
 	$CurrencyLabel.text = "Currency: " + str(new_currency)
+	
+func update_players_remaining(alive_players: int, max_players: int):
+	$PlayersRemainingLabel.text = "Players Remaining: " + str(alive_players) + "/" + str(max_players)
 
 func update_healthbar(new_health: int):
 	$HealthBar.value = new_health
 
 func set_storm_label(storm_state: Game.StormState):
 	if storm_state == Game.StormState.SHRINKING:
-		$StormLabel.text = SHRINKING_TEXT
+		$StormLabel.text = "SHRINKING"
 		return
 	
-	$StormLabel.text = WAITING_TEXT
+	$StormLabel.text = "WAITING"
 
 func show_port_menu():
 	$PortMenu.visible = true
 
 func hide_port_menu():
 	$PortMenu.visible = false
+	
+func show_loss_menu():
+	$LossMenu.visible = true
+	
+func show_victory_menu():
+	$VictoryMenu.visible = true
+

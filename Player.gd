@@ -5,16 +5,22 @@ const ProjectileScene = preload("res://Projectile.tscn")
 const Coin = preload("res://Coin.gd")
 const Port = preload("res://Port.gd")
 
-signal fire(pos, impulse)
+signal fire(pos, impulse, damage)
 signal health_changed(health)
 signal currency_changed(currency)
 signal entered_port()
 signal left_port()
+signal death(id)
 
-@export var MOVEMENT_FORCE = 50
+@export var MOVEMENT_ACCELERATION = 50
 @export var ROTATIONAL_TORQUE = 900.0
 @export var MAX_SPEED = 100
 @export var PROJECTILE_IMPULSE = 400
+@export var PROJECTILE_DAMAGE = 10
+@export var FIRE_TIMEOUT = 1
+@export var MIN_FIRE_TIMEOUT = 0.2
+
+var client_id: int
 
 var is_local_player = false
 @onready var camera: Camera2D = get_node("/root/Game/Camera2D")
@@ -28,8 +34,9 @@ var current_rotation_input = 0
 		health_changed.emit(new_health)
 		health = new_health
 		
-		if multiplayer.is_server() and health == 0:
+		if multiplayer.is_server() and health <= 0:
 			destroy_player.rpc()
+			death.emit(client_id)
 			
 
 @export var currency: int = 0:
@@ -62,6 +69,7 @@ enum ShipState {
 @rpc("authority", "call_local", "reliable")
 func destroy_player():
 	if is_local_player:
+		Globals.local_player_dead = true
 		health_changed.emit(0)
 	queue_free()
 
@@ -112,7 +120,7 @@ func _physics_process(delta: float):
 		calculate_rotation(current_rotation_input)
 
 func set_movement(input_direction: Vector2):
-	apply_central_force(input_direction * MOVEMENT_FORCE)
+	apply_central_force(input_direction * MOVEMENT_ACCELERATION)
 	
 func calculate_rotation( rotation_direction: float):
 	apply_torque(rotation_direction * ROTATIONAL_TORQUE)
@@ -131,6 +139,10 @@ func _input(event: InputEvent):
 		
 @rpc("any_peer", "call_remote", "unreliable")
 func fire_action():
+	if not $FireTimer.is_stopped():
+		return
+	
+	$FireTimer.start(FIRE_TIMEOUT)
 	# get current rotation
 	var left_fire_direction = global_rotation - (PI / 2)
 	var right_fire_direction = global_rotation + (PI / 2)
@@ -139,14 +151,13 @@ func fire_action():
 	fire_projectile(right_fire_direction)
 
 func fire_projectile(fire_direction: float):
-	var projectile = ProjectileScene.instantiate()
 	
 	var fire_vector = Vector2.UP.rotated(fire_direction)
 	
  	# TODO: get edge of ship's collison box and position there
 	var pos = global_position + (fire_vector * 50)
 	var impulse = fire_vector * PROJECTILE_IMPULSE
-	fire.emit(pos, impulse)
+	fire.emit(pos, impulse, PROJECTILE_DAMAGE)
 
 func collect_coin(coin: Coin):
 	currency += coin.VALUE
@@ -177,3 +188,31 @@ func _on_player_area_area_exited(area: Area2D):
 	if area is Port:
 		leave_port.rpc()
 		return
+
+@rpc("any_peer", "call_remote", "reliable")
+func damage_upgrade():
+	if currency < 10:
+		return
+	
+	currency -= 10
+	
+	PROJECTILE_DAMAGE += 10
+
+@rpc("any_peer", "call_remote", "reliable")
+func speed_upgrade():
+	if currency < 10:
+		return
+	
+	currency -= 10
+	
+	MOVEMENT_ACCELERATION += 10
+	ROTATIONAL_TORQUE += 100
+	MAX_SPEED += 20
+
+@rpc("any_peer", "call_remote", "reliable")
+func fire_rate_upgrade():
+	if currency < 10:
+		return
+	
+	currency -= 10
+	FIRE_TIMEOUT = max(MIN_FIRE_TIMEOUT, FIRE_TIMEOUT - 0.2)
