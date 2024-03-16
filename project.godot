@@ -26,6 +26,10 @@ multirun/number_of_windows=3
 multirun/add_custom_args=true
 multirun/window_args=["--debug-collisions ++ server", "--debug-collisions ++ client", "--debug-collisions ++ client"]
 
+[display]
+
+window/stretch/mode="canvas_items"
+
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/multirun/plugin.cfg")
