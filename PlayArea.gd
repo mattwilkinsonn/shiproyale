@@ -19,7 +19,11 @@ func get_storm_state() -> Game.StormState:
 	
 @rpc("authority", "call_remote", "unreliable")
 func sync_storm_radius(radius: float):
+	if $CollisionShape2D.shape.radius == radius:
+		return
+	
 	$CollisionShape2D.shape.radius = radius
+	queue_redraw()	
 	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -30,5 +34,8 @@ func _process(delta):
 	if get_storm_state() == Game.StormState.SHRINKING:
 		$CollisionShape2D.shape.radius -= SHRINK_SPEED * delta
 		
-	sync_storm_radius.rpc($CollisionShape2D.shape.radius)
 		
+	sync_storm_radius.rpc($CollisionShape2D.shape.radius)
+	
+func _draw():
+	draw_arc(Vector2.ZERO, $CollisionShape2D.shape.radius, 0, TAU, 100, Color.RED, 5, true)
