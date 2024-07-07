@@ -22,7 +22,7 @@ func join_server():
 	
 	#Lobby.player_info.name = $CenterContainer/VBoxContainer/Username.text
 	Lobby.player_info.name = str(randi())
-	Lobby.join_server()
+	Lobby.join_server($LobbyMenu.get_server_ip())
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
